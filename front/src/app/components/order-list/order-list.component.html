@@ -1,0 +1,41 @@
+<div class="contents">
+  <div class="table-content">
+    <table mat-table [dataSource]="dataSource" matSort>
+
+      <ng-container matColumnDef="orderNo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> 受注番号 </th>
+        <td mat-cell *matCellDef="let row"> {{row.orderNo}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="orderName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> 受注名 </th>
+        <td mat-cell *matCellDef="let row"> {{row.orderName}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="salesUserId">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> 営業担当者コード </th>
+        <td mat-cell *matCellDef="let row"> {{row.salesUserId}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="salesUserName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> 営業担当者名 </th>
+        <td mat-cell *matCellDef="let row"> {{row.salesUserName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="salesDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> 受注日 </th>
+        <td mat-cell *matCellDef="let row"> {{row.salesDate | date: 'yyyy/MM/dd'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="updateDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> データ更新日 </th>
+        <td mat-cell *matCellDef="let row"> {{row.updateDate | date: 'yyyy/MM/dd'}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+    </table>
+  </div>
+  <mat-paginator [pageSize]="100"></mat-paginator>
+</div>
