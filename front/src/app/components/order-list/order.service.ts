@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, interval, Observable, Subscription } from 'rxjs';
-import { OrderInterface } from 'src/app/models/order.model';
+import { OrderInterface, OrderOdattaInterface } from 'src/app/models/order.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrderService {
 
-  data: BehaviorSubject<OrderInterface[]> = new BehaviorSubject<OrderInterface[]>([]);
+  private data: BehaviorSubject<OrderInterface[]> = new BehaviorSubject<OrderInterface[]>([]);
   get data$(): Observable<OrderInterface[]> {
     return this.data.asObservable();
   }
@@ -20,7 +20,7 @@ export class OrderService {
   ) { }
 
   fetchAllData(): void {
-    this.httpClient.get<OrderInterface[]>('api/order').subscribe(x => {
+    this.httpClient.get<OrderInterface[]>('/api/orders/full').subscribe(x => {
       this.data.next(x);
     });
   }
@@ -30,17 +30,23 @@ export class OrderService {
       this.data.next(this.data.value);
       return;
     }
-    this.httpClient.get<OrderInterface[]>('api/order?$top=100').subscribe(x => {
-      this.data.next(x);
-      this.fetchRemainingData();
+    this.httpClient.get<OrderOdattaInterface>('/api/orders?$top=100').subscribe(x => {
+      this.data.next(x.value);
+      this.fetchRemainingData('?$skip=100');
     });
   }
 
-  private fetchRemainingData(): void {
+  private fetchRemainingData(param: string): void {
     this.fetchDate = new Date();
-    this.httpClient.get<OrderInterface[]>('api/order?$skip=100').subscribe(x => {
-      this.updateData(x);
-      this.fetchUpdateData();
+    this.httpClient.get<OrderOdattaInterface>(`/api/orders${param}`).subscribe(x => {
+      this.updateData(x.value);
+      if (x['@odata.nextLink'] != null && x['@odata.nextLink'] !== '') {
+        const url = new URL(x['@odata.nextLink']);
+        const nextlinkParam = url.search;
+        this.fetchRemainingData(nextlinkParam);
+      } else {
+        this.fetchUpdateData();
+      }
     });
   }
 
@@ -48,8 +54,8 @@ export class OrderService {
     const now = new Date();
     this.intervalGetData = interval(1 * 60 * 1000).subscribe(_ => {
       const dateSt = this.fetchDate.toISOString();
-      this.httpClient.get<OrderInterface[]>(`api/order?$filter=updateDate+ge+${dateSt}`).subscribe(x => {
-        this.updateData(x);
+      this.httpClient.get<OrderOdattaInterface>(`/api/orders?$filter=updateDate+ge+${dateSt}`).subscribe(x => {
+        this.updateData(x.value);
         this.fetchDate = now;
       });
     });

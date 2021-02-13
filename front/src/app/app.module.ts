@@ -22,7 +22,7 @@ import { MockInterceptor } from './_mock/mock.interceptor';
     HttpClientModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true }
+    // { provide: HTTP_INTERCEPTORS, useClass: MockInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

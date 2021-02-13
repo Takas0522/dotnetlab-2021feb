@@ -69,7 +69,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "DotNetLab2021Feb:build"
+            "browserTarget": "DotNetLab2021Feb:build",
+            "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {

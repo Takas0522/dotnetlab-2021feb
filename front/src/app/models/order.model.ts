@@ -6,3 +6,9 @@ export interface OrderInterface {
   salesDate: Date;
   updateDate: Date;
 }
+
+export interface OrderOdattaInterface {
+  '@odata.context': string;
+  '@odata.nextLink': string;
+  value: OrderInterface[];
+}

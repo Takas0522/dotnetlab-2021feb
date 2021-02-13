@@ -69,8 +69,8 @@
     <Build Include="Tables\User.sql" />
     <Build Include="Procedures\MyDepartmentOrder.sql" />
     <Build Include="Views\OrderView.sql" />
-  </ItemGroup>
-  <ItemGroup>
-    <PostDeploy Include="Scripts\Script.initdata.sql" />
+    <Build Include="Procedures\GetUsers.sql" />
+    <Build Include="Tables\Sample.sql" />
+    <Build Include="Procedures\GetOrderView.sql" />
   </ItemGroup>
 </Project>
