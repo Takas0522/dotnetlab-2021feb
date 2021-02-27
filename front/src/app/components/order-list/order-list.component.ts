@@ -23,6 +23,7 @@ export class OrderListComponent implements OnInit {
   ngOnInit(): void {
     this.tableSetting();
     this.service.fetchData();
+    //this.service.fetchAllData();
   }
 
   private tableSetting(): void {

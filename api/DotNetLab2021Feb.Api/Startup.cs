@@ -76,6 +76,8 @@ namespace DotNetLab2021Feb.Api
             builder.EntitySet<User>("users");
             builder.EntitySet<Sample>("Samples");
             builder.EntitySet<OrderView>("Orders");
+            builder.EntitySet<Department>("Departments");
+            builder.EntitySet<DepartmentMember>("DepartmentMembers");
             builder.EnableLowerCamelCase();
             return builder.GetEdmModel();
         }
